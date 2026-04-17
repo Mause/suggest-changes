@@ -30,12 +30,14 @@ jobs:
         id: checkout
         uses: actions/checkout@v6
 
+      - run: corepack enable
+
       - name: Setup Node.js
         id: setup-node
         uses: actions/setup-node@v6
         with:
           node-version-file: .node-version
-          cache: npm
+          cache: yarn
 
       - name: Remove dist/ Directory
         id: remove-dist
@@ -43,11 +45,11 @@ jobs:
 
       - name: Install Dependencies
         id: install
-        run: npm ci
+        run: yarn --immutable
 
       - name: Build dist/ Directory
         id: build
-        run: npm run bundle
+        run: yarn bundle
 
       # This will fail the workflow if the `dist/` directory is different than
       # expected.
